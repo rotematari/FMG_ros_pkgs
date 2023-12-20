@@ -1,0 +1,46 @@
+<!--URDF MODEL 48 DoFs-->
+
+<robot name="XSensStyleModel_template">
+
+    <material name="color">
+        <color rgba="0.1 0.1 0.1 1"/>
+    </material>
+
+    <link name="world"/>
+
+    <link name="Pelvis">
+        <inertial>
+            <mass value="4.976"/>
+            <!--COM origin wrt pHipOrigin-->
+            <origin xyz="0           0    0.049743" rpy="0 0 0" />
+            <inertia ixx="0.029678" iyy="0.011854" izz="0.033653" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+
+        <visual>
+            <!--box origin wrt pHipOrigin-->
+            <origin xyz="0           0    0.049743" rpy="0 0 0" />
+            <geometry>
+                <box size="0.13815     0.24914    0.097469"/>
+            </geometry>
+            <material name="color"/>
+        </visual>
+
+        <collision>
+            <!--box origin wrt pHipOrigin-->
+            <origin xyz="0           0    0.049743" rpy="0 0 0" />
+            <geometry>
+                <box size="0.13815     0.24914    0.097469"/>
+            </geometry>
+        </collision>
+
+    </link>
+
+    <joint name="jL5S1_rotx" type="revolute">
+        <origin xyz="-0.000206           0    0.098478" rpy="0 0 0"/>
+        <parent link="Pelvis"/>
+        <child link="L5_f1"/>
+        <dynamics damping="0.1" friction="0.0"/>
+        <limit effort="30" velocity="1.0" lower="-0.610865" upper="0.610865" />
+        <axis xyz="1 0 0" />
+    </joint>
+</robot>
