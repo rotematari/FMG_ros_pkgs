@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<robot name="square_table">
+
+  <!-- Define materials -->
+  <material name="wood_color">
+    <color rgba="0.76 0.60 0.42 1.0"/> <!-- Brown color for wood -->
+  </material>
+
+  <!-- World Link (reference point) -->
+  <link name="world"/>
+  <link name="base_tf"/>
+  <link name="human_location"/>
+
+  <!-- Table Top -->
+  <link name="table_top">
+    <visual>
+      <origin xyz="0 0 1.00"/> <!-- Position the top 1 meter above the world link -->
+      <geometry>
+        <box size="1.20 1.00 0.05"/> <!-- Width x Length x Height in meters -->
+      </geometry>
+      <material name="wood_color"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 1.00"/>
+      <geometry>
+        <box size="1.20 1.00 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Legs -->
+  <!-- Each leg is a separate link. Assuming the legs are simple cylinders -->
+  <!-- Adjust the position of each leg in the <origin> tag -->
+
+  <link name="leg1">
+    <visual>
+      <origin xyz="0.55 0.45 0.50"/> <!-- Adjust position of leg -->
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/> <!-- Height and radius in meters -->
+      </geometry>
+      <material name="wood_color"/>
+    </visual>
+    <collision>
+      <origin xyz="0.55 0.45 0.50"/>
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Repeat for the other three legs -->
+
+  <link name="leg2">
+    <visual>
+      <origin xyz="-0.55 0.45 0.50"/>
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/>
+      </geometry>
+      <material name="wood_color"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.55 0.45 0.50"/>
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="leg3">
+    <visual>
+      <origin xyz="0.55 -0.45 0.50"/>
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/>
+      </geometry>
+      <material name="wood_color"/>
+    </visual>
+    <collision>
+      <origin xyz="0.55 -0.45 0.50"/>
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="leg4">
+    <visual>
+      <origin xyz="-0.55 -0.45 0.50"/>
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/>
+      </geometry>
+      <material name="wood_color"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.55 -0.45 0.50"/>
+      <geometry>
+        <cylinder length="1.00" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint definitions can be added here if the table parts are movable -->
+  <!-- For a static table, joints are not necessary -->
+
+    <!-- Joint to connect the table top to the world -->
+
+  <joint name="table_top_joint" type="fixed">
+    <parent link="world"/>
+    <child link="table_top"/>
+    <origin xyz="0 0 0.00"/> <!-- Position the joint at the top of the legs -->
+  </joint>
+    <joint name="leg1_joint" type="fixed">
+    <parent link="world"/>
+    <child link="leg1"/>
+    <origin xyz="0 0 0"/> <!-- Position of the joint -->
+  </joint>
+    <joint name="leg2_joint" type="fixed">
+    <parent link="world"/>
+    <child link="leg2"/>
+    <origin xyz="0 0 0"/> <!-- Position of the joint -->
+  </joint>
+    <joint name="leg3_joint" type="fixed">
+    <parent link="world"/>
+    <child link="leg3"/>
+    <origin xyz="0 0 0"/> <!-- Position of the joint -->
+  </joint>
+    <joint name="leg4_joint" type="fixed">
+    <parent link="world"/>
+    <child link="leg4"/>
+    <origin xyz="0 0 0"/> <!-- Position of the joint -->
+  </joint>
+
+    <joint name="table_top_base" type="fixed">
+    <parent link="table_top"/>
+    <child link="base_tf"/>
+    <origin xyz="0.6 0.5 1.05"/> <!-- Position the joint at the top of the legs -->
+  </joint>
+    <joint name="table_top_human" type="fixed">
+    <parent link="table_top"/>
+    <child link="human_location"/>
+    <origin xyz="0.6 0 1.05"/> <!-- Position the joint at the top of the legs -->
+  </joint>
+
+</robot>
