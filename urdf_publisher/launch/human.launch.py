@@ -10,7 +10,7 @@ def generate_launch_description():
     
     use_joint_state_gui_parameter_name = 'use_gui'
     use_joint_state_gui = LaunchConfiguration(use_joint_state_gui_parameter_name)
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
     urdf_file_name = 'humanSubject01_48dof.urdf'
     urdf = os.path.join(
@@ -23,11 +23,11 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'use_sim_time',
-            default_value='false',
+            default_value='true',
             description='Use simulation (Gazebo) clock if true'),
         DeclareLaunchArgument(
             use_joint_state_gui_parameter_name,
-            default_value='True',
+            default_value='False',
             description='use GUI to controll the human'),
         Node(
             package='robot_state_publisher',
@@ -36,14 +36,15 @@ def generate_launch_description():
             name='human_state_publisher',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time, 'robot_description': robot_desc}],
-            
             arguments=[urdf]),
+        
         Node(
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
         name='joint_state_publisher_gui',
         condition=IfCondition(use_joint_state_gui),
         ),
+        
         Node(
             package='joint_state_publisher',
             executable='joint_state_publisher',
@@ -53,16 +54,5 @@ def generate_launch_description():
                 {'source_list': ['human/joint_states'],
                  'rate': 30}],
             condition=UnlessCondition(use_joint_state_gui),
-        ),
-
-       
-        Node(
-            package='joint_state_publisher_gui',
-            executable='joint_state_publisher_gui',
-            namespace = 'human',
-            name='joint_state_publisher_gui',
-            parameters=[
-                {'source_list': ['human/joint_states'],}],
-            
         ),
     ])

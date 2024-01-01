@@ -1,4 +1,4 @@
-#! usr/env/python  /home/robotics20/franka_ros2_ws/.conda
+#! usr/bin/env python3  
 from launch.conditions import IfCondition, UnlessCondition
 import os
 from ament_index_python.packages import get_package_share_directory
@@ -63,7 +63,7 @@ def generate_launch_description():
                         'without an end-effector.'),
         DeclareLaunchArgument(
             use_joint_state_gui_parameter_name,
-            default_value='True',
+            default_value='false',
             description='use GUI to controll the human'),
 
         IncludeLaunchDescription(

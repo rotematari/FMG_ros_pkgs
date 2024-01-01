@@ -1,5 +1,4 @@
-#! usr/env/python  /home/robotics20/franka_ros2_ws/.conda
-
+#!/usr/bin/env/ python3  
 
 import rclpy
 from rclpy.node import Node
@@ -18,8 +17,8 @@ class JointPublisher(Node):
 
     def timer_callback(self):
         msg = JointState()
-        msg.name = "jRightSholder_rotx"
-        msg.position = 1
+        msg.name = ['jRightSholder_roty']
+        msg.position = [1.0]
         self.publisher_.publish(msg)
         self.get_logger().info('Publishing: "%s"' % msg.name)
         self.i += 1
