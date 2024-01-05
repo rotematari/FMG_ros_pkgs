@@ -823,7 +823,7 @@
 	<!--JOINTS-->
 	<!--Chain from (2) to (7)-->
     <joint name="human_location" type="fixed">
-        <origin xyz="0           0    0" rpy="0 0 3.14"/>
+        <origin xyz="0           0    0" rpy="0 0 0"/>
         <parent link="human_location"/>
         <child link="Pelvis"/>
     </joint>

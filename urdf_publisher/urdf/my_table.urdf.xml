@@ -132,12 +132,12 @@
     <joint name="table_top_base" type="fixed">
     <parent link="table_top"/>
     <child link="base_tf"/>
-    <origin xyz="0.6 0.5 1.05"/> <!-- Position the joint at the top of the legs -->
+    <origin xyz="-0.6 0.5 1.05"/> <!-- Position the joint at the top of the legs -->
   </joint>
     <joint name="table_top_human" type="fixed">
     <parent link="table_top"/>
     <child link="human_location"/>
-    <origin xyz="0.6 0 1.05"/> <!-- Position the joint at the top of the legs -->
+    <origin xyz="-0.6 0 1.05"/> <!-- Position the joint at the top of the legs -->
   </joint>
 
 </robot>
