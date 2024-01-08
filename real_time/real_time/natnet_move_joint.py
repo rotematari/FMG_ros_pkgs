@@ -7,7 +7,8 @@ from sensor_msgs.msg import JointState
 import pandas as pd 
 from math import pi 
 import numpy as np 
-
+from natnet.real_time.utils.utils import calculate_angles_with_axes , calculate_vectors
+from natnet.real_time.NatnetReader import read_sample,init_natnetClient
 
 class JointPublisher(Node):
 
@@ -18,8 +19,17 @@ class JointPublisher(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
-        self.StoE_angles_df = pd.read_csv(r'build/move_joint/data/StoE_angles.csv')
-        self.StoE_to_EtoW_angle_df = pd.read_csv(r'build/move_joint/data/StoE_to_EtoW_angle.csv')
+
+        natnet = init_natnetClient()
+        natnet.run()
+
+
+        locations = read_sample(natnet=natnet)
+
+        CtoS, StoE, EtoW = calculate_vectors(locations)
+
+        self.StoE_angles_df = calculate_angles_with_axes(StoE) 
+        # self.StoE_to_EtoW_angle_df = 
 
     def timer_callback(self):
         msg = JointState()
@@ -28,12 +38,14 @@ class JointPublisher(Node):
             'jLeftShoulder_roty',
             'jLeftShoulder_rotx',
             'jLeftShoulder_rotz',
-            'jLeftElbow_rotz']
+            # 'jLeftElbow_rotz'
+            ]
         msg.position = [
                         self.StoE_angles_df['X'][self.i],
                         self.StoE_angles_df['Y'][self.i]-pi,
                         -self.StoE_angles_df['Z'][self.i]+pi,
-                        self.StoE_to_EtoW_angle_df['rad'][self.i]]
+                        # self.StoE_to_EtoW_angle_df['rad'][self.i]
+                        ]
         self.publisher_.publish(msg)
         self.get_logger().info('Publishing to :%s position' % msg  )
         self.i += 1
@@ -41,7 +53,7 @@ class JointPublisher(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-
+    
     joint_publisher = JointPublisher()
 
     rclpy.spin(joint_publisher)
