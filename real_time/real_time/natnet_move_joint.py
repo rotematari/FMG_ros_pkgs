@@ -7,8 +7,8 @@ from sensor_msgs.msg import JointState
 import pandas as pd 
 from math import pi 
 import numpy as np 
-from natnet.real_time.utils.utils import calculate_angles_with_axes , calculate_vectors
-from natnet.real_time.NatnetReader import read_sample,init_natnetClient
+from natnet.utils import calculate_angles_with_axes , calculate_vectors
+from natnet.NatnetReader import read_sample,init_natnetClient
 
 class JointPublisher(Node):
 
