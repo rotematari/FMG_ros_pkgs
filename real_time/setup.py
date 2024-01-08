@@ -25,7 +25,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'natnet_move_joint_pub:real_time.natnet_move_joint:main'
+            # 'natnet_move_joint_pub:real_time.natnet_move_joint:main'
         ],
     },
 )
