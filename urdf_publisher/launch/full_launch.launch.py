@@ -63,7 +63,7 @@ def generate_launch_description():
                         'without an end-effector.'),
         DeclareLaunchArgument(
             use_joint_state_gui_parameter_name,
-            default_value='false',
+            default_value='False',
             description='use GUI to controll the human'),
 
         IncludeLaunchDescription(

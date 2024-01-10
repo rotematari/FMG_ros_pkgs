@@ -961,7 +961,7 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <parent link="RightUpperArm_f1"/>
         <child link="RightUpperArm_f2"/>
-        <dynamics damping="0.1" friction="0.0"/>
+         <dynamics damping="0.1" friction="0.0"/>
         <limit effort="30" velocity="1.0" lower="-1.5708" upper="1.5708" />
         <axis xyz="0 1 0" />
     </joint>

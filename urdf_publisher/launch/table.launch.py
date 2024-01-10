@@ -25,10 +25,11 @@ def generate_launch_description():
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
+            namespace = 'table',
             name='table_state_publisher',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time, 'robot_description': robot_desc}],
-            remappings=[('robot_description','table_desctiption')],
+            # remappings=[('robot_description','table_desctiption')],
             arguments=[urdf]),
 
     ])

@@ -5,21 +5,21 @@ import yaml
 import argparse
 import pandas as pd
 
-from NatNetClient import NatNetClient
+from natnet.NatNetClient import NatNetClient
 
-# Get the current directory of the script being run
-current_directory = os.path.dirname(os.path.realpath(__file__))
+# # Get the current directory of the script being run
+# current_directory = os.path.dirname(os.path.realpath(__file__))
 
-# Navigate up  directori
-parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
-# Change the working directory
-os.chdir(parent_directory)
+# # Navigate up  directori
+# parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
+# # Change the working directory
+# os.chdir(parent_directory)
 
-with open(r'config.yaml', 'r') as f:
-    args = yaml.safe_load(f)
+# with open(r'config.yaml', 'r') as f:
+#     args = yaml.safe_load(f)
 
 
-    config = argparse.Namespace(**args)
+#     config = argparse.Namespace(**args)
 
 def receiveRigidBodyList(rigidBodyList, timestamp):
     for (ac_id, pos, quat, valid) in rigidBodyList:
@@ -36,7 +36,7 @@ def init_natnetClient():
 
 def read_sample(natnet):
 
-    motive_matcher: {
+    motive_matcher = {
             1: 'chest',
             2: 'shoulder',
             3: 'elbow',
@@ -44,7 +44,7 @@ def read_sample(natnet):
             }
 
     # xyz 
-    locations: {
+    locations = {
             'chest':[],
             'shoulder':[],
             'elbow':[],
@@ -57,6 +57,7 @@ def read_sample(natnet):
         natnet.rigidBodyList
 
     rigid_bodys = natnet.rigidBodyList
+    # print(rigid_bodys)
 
     for j in range(len(rigid_bodys)):
         locations[motive_matcher[rigid_bodys[j][0]]].append(rigid_bodys[j][1])
@@ -70,11 +71,12 @@ def main(config):
     natnet.run()
 
 
-    locations = read_sample(config,natnet)
+    locations = read_sample(natnet)
 
     print(locations)
 
+    natnet.stop()
 
-if __name__=="__main__":
+# if __name__=="__main__":
 
-    main(config)
+#     main(config)

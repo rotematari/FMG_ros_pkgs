@@ -29,6 +29,9 @@ def generate_launch_description():
             use_joint_state_gui_parameter_name,
             default_value='False',
             description='use GUI to controll the human'),
+        
+
+        
         Node(
             package='robot_state_publisher',
             namespace = 'human',
@@ -37,14 +40,6 @@ def generate_launch_description():
             output='screen',
             parameters=[{'use_sim_time': use_sim_time, 'robot_description': robot_desc}],
             arguments=[urdf]),
-        
-        Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        name='joint_state_publisher_gui',
-        condition=IfCondition(use_joint_state_gui),
-        ),
-        
         Node(
             package='joint_state_publisher',
             executable='joint_state_publisher',
@@ -55,4 +50,13 @@ def generate_launch_description():
                  'rate': 30}],
             condition=UnlessCondition(use_joint_state_gui),
         ),
+
+        Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        name='joint_state_publisher_gui',
+        condition=IfCondition(use_joint_state_gui),
+        ),
+        
+
     ])
