@@ -26,14 +26,14 @@ def generate_launch_description():
     use_joint_state_gui = LaunchConfiguration(use_joint_state_gui_parameter_name)
     
 
-    franka_bringup_fake = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-         get_package_share_directory('franka_bringup'), 'launch'),
-         'franka.launch.py']),
-         launch_arguments= {robot_ip_parameter_name: robot_ip,
-                              use_fake_hardware_parameter_name: use_fake_hardware},
-         condition=IfCondition(use_fake_hardware), 
-      )
+    # franka_bringup_fake = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([os.path.join(
+    #      get_package_share_directory('franka_bringup'), 'launch'),
+    #      'franka.launch.py']),
+    #      launch_arguments= {robot_ip_parameter_name: robot_ip,
+    #                           use_fake_hardware_parameter_name: use_fake_hardware},
+    #      condition=IfCondition(use_fake_hardware), 
+    #   )
         
 
 
@@ -53,7 +53,7 @@ def generate_launch_description():
             description='Use fake hardware'),
         DeclareLaunchArgument(
             fake_sensor_commands_parameter_name,
-            default_value='false',
+            default_value='True',
             description="Fake sensor commands. Only valid when '{}' is true".format(
                 use_fake_hardware_parameter_name)),
         DeclareLaunchArgument(
@@ -63,7 +63,7 @@ def generate_launch_description():
                         'without an end-effector.'),
         DeclareLaunchArgument(
             use_joint_state_gui_parameter_name,
-            default_value='False',
+            default_value='True',
             description='use GUI to controll the human'),
 
         IncludeLaunchDescription(
@@ -88,6 +88,6 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([os.path.join(
          get_package_share_directory('urdf_publisher'), 'launch'),
          '/human.launch.py']),
-         launch_arguments={use_joint_state_gui_parameter_name:use_joint_state_gui,}.items(),        
+         launch_arguments={use_joint_state_gui_parameter_name:use_joint_state_gui}.items(),        
         ),
 ])

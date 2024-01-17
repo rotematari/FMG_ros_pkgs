@@ -37,10 +37,12 @@ def init_natnetClient():
 def read_sample(natnet):
 
     motive_matcher = {
+            0: 'table_base',
             1: 'chest',
             2: 'shoulder',
             3: 'elbow',
             4: 'wrist',
+            
             }
 
     # xyz 
@@ -49,6 +51,7 @@ def read_sample(natnet):
             'shoulder':[],
             'elbow':[],
             'wrist':[],
+            'table_base':[],
             }
 
 

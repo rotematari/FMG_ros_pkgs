@@ -1,5 +1,5 @@
 import numpy as np
-
+from scipy.spatial.transform import Rotation as R
 
 def calculate_euler_angles(vector):
     x1, y1, z1 = vector
@@ -69,11 +69,15 @@ def calculate_vectors(locatios: dict):
     MS = np.array(locatios['shoulder'][0])
     ME = np.array(locatios['elbow'][0])
     MW = np.array(locatios['wrist'][0])
+    MT = np.array(locatios['table_base'][0])
+    # print(MS)
+    # print(ME)
     CtoS = MS - MC
     StoE = ME - MS
     EtoW = MW - ME
+    CtoS, StoE, EtoW = CtoS/np.linalg.norm(CtoS), StoE/np.linalg.norm(StoE), EtoW/np.linalg.norm(EtoW)
+    # print(StoE)
     return CtoS, StoE, EtoW
-import numpy as np
 
 def normalize(v):
     """Normalize a vector."""
@@ -91,7 +95,6 @@ def rotation_matrix_from_vectors(vec1, vec2):
 
 def euler_from_matrix(vec1, vec2):
     """Convert rotation matrix to Euler angles."""
-
     matrix = rotation_matrix_from_vectors(vec1,vec2)
     sy = np.sqrt(matrix[0, 0] ** 2 +  matrix[1, 0] ** 2)
     singular = sy < 1e-6

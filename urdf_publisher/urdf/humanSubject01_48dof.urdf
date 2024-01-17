@@ -3,7 +3,7 @@
 <robot name="XSensStyleModel_template" >
 
 <material name="color">
-    <color rgba="0.1 0.1 0.1 1"/>
+    <color rgba="0.5 0.5 0.5 0.9"/>
 </material>
 <link name="human_location"/>
 <!--To open this model with Gazebo replace the null masses, inertias and dimensions of the 'fake links f1 and f2'-->
@@ -460,6 +460,20 @@
 
     </link>
 	<link name="LeftForeArm_f1">
+        <inertial>
+            <mass value="0"/>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0" iyy="0" izz="0" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    <link name="LeftForeArm_f2">
+        <inertial>
+            <mass value="0"/>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0" iyy="0" izz="0" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    <link name="LeftForeArm_f">
         <inertial>
             <mass value="0"/>
             <origin xyz="0 0 0" rpy="0 0 0" />
@@ -1025,7 +1039,7 @@
         <parent link="LeftShoulder"/>
         <child link="LeftUpperArm_f1"/>
         <dynamics damping="0.1" friction="0.0"/>
-        <limit effort="30" velocity="1.0" lower="-1.5708" upper="2.35619" />
+        <limit effort="30" velocity="1.0" lower="-5" upper="5" />
         <axis xyz="1 0 0" />
     </joint>
 	<joint name="jLeftShoulder_roty" type="revolute">
@@ -1033,7 +1047,7 @@
         <parent link="LeftUpperArm_f1"/>
         <child link="LeftUpperArm_f2"/>
         <dynamics damping="0.1" friction="0.0"/>
-        <limit effort="30" velocity="1.0" lower="-1.5708" upper="1.5708" />
+        <limit effort="30" velocity="1.0" lower="-5" upper="5"/>
         <axis xyz="0 1 0" />
     </joint>
     <joint name="jLeftShoulder_rotz" type="revolute">
@@ -1041,23 +1055,39 @@
         <parent link="LeftUpperArm_f2"/>
         <child link="LeftUpperArm"/>
         <dynamics damping="0.1" friction="0.0"/>
-        <limit effort="30" velocity="1.0" lower="-3.14159" upper="0.785398" />
+        <limit effort="30" velocity="1.0" lower="-5" upper="5" />
         <axis xyz="0 0 1" />
     </joint>
-    <joint name="jLeftElbow_roty" type="revolute">
+    <joint name="jLeftElbow_base" type="fixed">
         <origin xyz="0     0.26994           0" rpy="0 0 0"/>
         <parent link="LeftUpperArm"/>
+        <child link="LeftForeArm_f"/>
+        <!-- <dynamics damping="0.1" friction="0.0"/>
+        <limit effort="30" velocity="1.0" lower="-1.5708" upper="1.48353" />
+        <axis xyz="0 0 0" /> -->
+    </joint>
+    <joint name="jLeftElbow_rotx" type="revolute">
+        <origin xyz="0     0           0" rpy="0 0 0"/>
+        <parent link="LeftForeArm_f"/>
         <child link="LeftForeArm_f1"/>
         <dynamics damping="0.1" friction="0.0"/>
-        <limit effort="30" velocity="1.0" lower="-1.5708" upper="1.48353" />
+        <limit effort="30" velocity="1.0" lower="-5" upper="5" />
+        <axis xyz="1 0 0" />
+    </joint>
+    <joint name="jLeftElbow_roty" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="LeftForeArm_f1"/>
+        <child link="LeftForeArm_f2"/>
+        <dynamics damping="0.1" friction="0.0"/>
+        <limit effort="30" velocity="1.0" lower="-5" upper="5" />
         <axis xyz="0 1 0" />
     </joint>
     <joint name="jLeftElbow_rotz" type="revolute">
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <parent link="LeftForeArm_f1"/>
+        <parent link="LeftForeArm_f2"/>
         <child link="LeftForeArm"/>
         <dynamics damping="0.1" friction="0.0"/>
-        <limit effort="30" velocity="1.0" lower="-2.53073" upper="0" />
+        <limit effort="30" velocity="1.0" lower="-5" upper="5" />
         <axis xyz="0 0 1" />
     </joint>
 	<joint name="jLeftWrist_rotx" type="revolute">

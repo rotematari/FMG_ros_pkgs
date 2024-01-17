@@ -25,7 +25,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'natnet_move_joint=real_time.natnet_move_joint:main',
+            'model_arm_mover = real_time.human_arm_mover_model:main',
+            'nat_net_arm_mover = real_time.human_arm_mover_natnet:main',
+            'tf_sub=real_time.TFSubscriber:main',
         ],
     },
 )
