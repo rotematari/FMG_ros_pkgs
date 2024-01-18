@@ -18,15 +18,8 @@ class MoveArm(Node):
     """
 
     def __init__(self):
-        super().__init__('human_arm_mover')
+        super().__init__('model_human_arm_mover')
 
-        # self.tf_buffer = Buffer()
-        # self.tf_listener = TransformListener(self.tf_buffer, self)
-        # self.tf_broadcaster = TransformBroadcaster(self)
-
-        # Initialize Optitrack client
-        self.natnet = init_natnetClient()
-        self.natnet.run()
 
         # Create human JointState publisher
         self.joint_state_publisher = self.create_publisher(JointState, '/human/human/joint_states', 10)

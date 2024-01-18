@@ -18,11 +18,7 @@ class MoveArm(Node):
     """
 
     def __init__(self):
-        super().__init__('human_arm_mover')
-
-        # self.tf_buffer = Buffer()
-        # self.tf_listener = TransformListener(self.tf_buffer, self)
-        # self.tf_broadcaster = TransformBroadcaster(self)
+        super().__init__('natnet_human_arm_mover')
 
         # Initialize Optitrack client
         self.natnet = init_natnetClient()

@@ -28,6 +28,7 @@ setup(
             'model_arm_mover = real_time.human_arm_mover_model:main',
             'nat_net_arm_mover = real_time.human_arm_mover_natnet:main',
             'tf_sub=real_time.TFSubscriber:main',
+            'data_reader = model.serial_read:main',
         ],
     },
 )
