@@ -1,8 +1,13 @@
 import rclpy
 from rclpy.node import Node
 import serial
+
+import numpy as np 
+import pandas as pd 
+import sklearn
 from data.data_processing import DataProcessor
 from utils.utils import subtract_bias
+from sklearn.preprocessing import MinMaxScaler
 
 class ReadAndProcess(Node):
     def __init__(self, serial_port, baud_rate):
@@ -13,8 +18,12 @@ class ReadAndProcess(Node):
         self.timer = self.create_timer(0.1, self.read_and_process)
         # self.data_processor = DataProcessor()
         self.callibrate = True
-        self.cllibration_length = 100
-
+        self.normelize = True 
+        self.session_bias = None
+        self.min_max_scaler = None
+        self.calibration_length = 1000
+        # take from the model config
+        self.sequence_length = 100 #same as the config and the model 
     def readline(self):
         # reads a line 
         line = self.ser.readline().decode("utf-8").rstrip(',\r\n')# Read a line from the serial port
@@ -22,30 +31,54 @@ class ReadAndProcess(Node):
 
         return data
     
-    def callibrate(self):
+    def find_bias(self):
         data = []
-        for i in range(self.cllibration_length):
-            data.append(self.readline())        
+        for i in range(self.calibration_length):
+            data.append(self.readline())
+            if i % 100 == 0:
+                print(f'{i} points collected')
+
+        data = np.array(data, dtype=float)
+        # Calculate the mean of each column
+        self.session_bias = data.mean(axis=0)
+        self.calldata = data - self.session_bias
+    def min_max_norm(self):
+        """
+        Initializes and fits the MinMaxScaler with the calibration data.
+        """
+        if self.session_bias is not None:
+            self.min_max_scaler = MinMaxScaler(feature_range=(0, 1))
+            self.min_max_scaler.fit(self.calldata)
         
-        return calldata 
     def read_and_process(self):
         
         for i in range(100):
             self.readline()
-        if self.callibrate:
-            self.callibrate()
+        if self.session_bias:
+            self.find_bias()
+            self.calibrate = False
+            if self.normelize:
+                self.min_max_norm()
+                self.normelize = False
+        
+        # get sequence
+        data = []
+        for i in range(self.sequence_legth):
+            data.append(self.readline())
+        
+        if self.session_bias is not None and self.min_max_scaler is not None:
+            data = [self.readline() for _ in range(self.sequence_length)]
+
+            sequence = np.array(data, dtype=float) - self.session_bias
+
+            normalized_data = self.min_max_scaler.transform(sequence)
+        
+        # TODO:to tensor
+
+        #predict 
 
             # self.get_logger().info(f"Received data: {calldata[-1]}")
         # self.process_data(data)
-
-    def process_data(self):
-        # subtruct bais 
-
-        
-        # Process the data received from serial
-        # Example: Log the data or publish to a ROS2 topic
-        # self.get_logger().info(f"Received data: {}")
-        pass
 
 def main(args=None):
     rclpy.init(args=args)
